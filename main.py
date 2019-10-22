@@ -94,7 +94,7 @@ class SecondScreen(tk.Tk):
     def calculate(self):
         self.done_text.set("")
         print(self.speedup_entry.get())
-        spdg.speedup_time(self.speedup_entry.get(), self.input_file_location, self.output_file_location)
+        spdg.speedup_time(int(self.speedup_entry.get()), self.input_file_location, self.output_file_location)
         self.done_text.set("Done!")
 
 

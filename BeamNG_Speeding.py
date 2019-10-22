@@ -27,6 +27,7 @@ def speedup_time(percent_quicker, input_file_location, output_file_location):
     json_file = open(output_file_location, "w+")
     json_file.write(json.dumps(data, indent=1, sort_keys=True))
     json_file.close()
+    return
 
 
 def speedup_time2(percent_quicker, percent_quicker2, input_file_location, output_file_location):

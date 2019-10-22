@@ -48,21 +48,15 @@ class Files(tk.Frame):
         self.select_file_button.grid(row=row, column=2, padx=5, pady=3)
 
     def ask_file_location(self):
-        self.directory = filedialog.askopenfile(initialdir="/", title="Select file",
-                                                filetypes=(("track files","*.track.json"),("all files","*.*")))
+        self.directory = filedialog.askopenfilename(initialdir="/", title="Select file",
+                                                    filetypes=(("track files","*.track.json"),("all files","*.*")))
         self.set_file_name(self.directory)
 
     def set_file_name(self, directory):
-        if directory.name.find("/"):
-            file_name = directory.name.split("/")[-1]
-        else:
-            file_name = directory.name
-        if len(file_name) > max_file_name_size:
-            file_name = file_name[0:max_file_name_size-3] + "..."
-        self.file_name.set(file_name)
+        self.file_name.set(self.directory)
 
     def get_file(self):
-        return self.directory.name
+        return self.file_name.get()
 
     def set_directory(self, directory):
         self.directory = directory
@@ -73,21 +67,43 @@ class Files(tk.Frame):
 
 
 class SecondScreen(tk.Tk):
-    def __init__(self, input_directory, output_directory):
+    def __init__(self, input_dir, output_dir):
         super().__init__()
+
+        self.input_file_location = input_dir
+        self.output_file_location = output_dir
 
         self.title("BeamNG.drive Line Editor")
 
         frame = tk.Frame(self)
         frame.grid(padx=5, pady=5)
-        
-        self.speedup_label = Label(frame, text="Speedup %").grid(sticky=tk.W)
+
+        speedup = 0
+        self.done_text = tk.StringVar()
+        self.done_text.set("")
+
+        self.speedup_label = Label(frame, text="Speedup %").grid(row=0, column=0, sticky=tk.W)
+        self.speedup_entry = tk.Entry(frame)
+        self.speedup_entry.grid(row=0, column=1)
+        self.speedup_entry.insert(0, speedup)
+
+        self.speedup_button = Button(frame, text="Start", command=self.calculate).grid(row=0, column=2)
+        self.quit_button = Button(frame, text="Quit", command=frame.quit).grid(row=1, column=2)
+        self.done_label = Label(frame, textvariable=self.done_text).grid(row=1, column=1)
+
+    def calculate(self):
+        self.done_text.set("")
+        print(self.speedup_entry.get())
+        spdg.speedup_time(self.speedup_entry.get(), self.input_file_location, self.output_file_location)
+        self.done_text.set("Done!")
 
 
 if __name__ == '__main__':
     app = App()
     app.mainloop()
-    input_directory = app.input_files.get_directory()
-    output_directory = app.output_files.get_directory()
+    input_directory = app.input_files.get_file()
+    output_directory = app.output_files.get_file()
+    print(input_directory)
+    print(output_directory)
     app.destroy()
     app2 = SecondScreen(input_directory, output_directory).mainloop()

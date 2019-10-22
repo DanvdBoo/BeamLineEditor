@@ -1,11 +1,8 @@
 import json
 
-file_location = ""
-file_location_write = ""
 
-
-def speedup_time(percent_quicker):
-    json_file = open(file_location, "r")
+def speedup_time(percent_quicker, input_file_location, output_file_location):
+    json_file = open(input_file_location, "r")
     data = json.load(json_file)
     json_file.close()
     previous_time = 0
@@ -27,13 +24,13 @@ def speedup_time(percent_quicker):
         previous_time = time['t']
         previous_old_time = old_time
 
-    json_file = open(file_location_write, "w+")
+    json_file = open(output_file_location, "w+")
     json_file.write(json.dumps(data, indent=1, sort_keys=True))
     json_file.close()
 
 
-def speedup_time2(percent_quicker, percent_quicker2):
-    json_file = open(file_location, "r")
+def speedup_time2(percent_quicker, percent_quicker2, input_file_location, output_file_location):
+    json_file = open(input_file_location, "r")
     data = json.load(json_file)
     json_file.close()
     previous_time = 0
@@ -57,13 +54,9 @@ def speedup_time2(percent_quicker, percent_quicker2):
         previous_time = time['t']
         previous_old_time = old_time
 
-    json_file = open(file_location_write, "w+")
+    json_file = open(output_file_location, "w+")
     json_file.write(json.dumps(data, indent=1, sort_keys=True))
     json_file.close()
-
-
-def set_file_location(name):
-    file_location = name
 
 
 # if __name__ == '__main__':

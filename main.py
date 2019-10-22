@@ -12,20 +12,21 @@ class App(tk.Tk):
         self.title("BeamNG.drive Line Editor")
 
         frame = tk.Frame(self)
-        frame.grid()
+        frame.grid(pady=2, padx=5)
 
-        self.same_bool = tk.IntVar()
+        self.same_bool = tk.BooleanVar()
 
         self.input_files = Files(frame, "input", 0)
         self.output_files = Files(frame, "output", 1)
 
         self.select_same = tk.Checkbutton(frame, variable=self.same_bool, command=self.set_output_to_input)
-        self.select_same.grid(row=2, sticky=tk.E)
+        self.select_same.grid(row=2, sticky=tk.E, pady=3)
         self.select_same_label = Label(frame, text="Set output to input").grid(row=2, column=1, sticky=tk.W)
-        self.quit_button = Button(frame, text="Quit", command=frame.quit).grid(row=2, column=2)
+        self.quit_button = Button(frame, text="Quit", command=exit, width=7).grid(row=3, column=2)
+        self.continue_button = Button(frame, text="Continue", command=frame.quit).grid(row=3, column=0)
 
     def set_output_to_input(self):
-        if self.same_bool.get() == 1:
+        if self.same_bool.get():
             self.output_files.set_directory(self.input_files.get_directory())
 
 
@@ -33,18 +34,18 @@ class Files(tk.Frame):
     def __init__(self, master, input_output, row):
         super().__init__(master)
 
-        self.input_label = Label(master, text=input_output).grid(row=row, sticky=tk.W)
+        self.input_label = Label(master, text=input_output).grid(row=row, sticky=tk.E)
 
         self.file_name = tk.StringVar()
         self.file_name.set("")
         self.directory = ""
 
-        self.input_file_name_text = tk.Entry(master, textvariable=self.file_name)
-        self.input_file_name_text.grid(row=row, column=1, padx=5)
+        self.input_file_name_text = tk.Entry(master, textvariable=self.file_name, width=50)
+        self.input_file_name_text.grid(row=row, column=1, padx=5, pady=3)
 
         self.select_file_button = Button(master, text="Browse",
-                                         command=lambda: self.ask_file_location())
-        self.select_file_button.grid(row=row, column=2)
+                                         command=lambda: self.ask_file_location(), width=7)
+        self.select_file_button.grid(row=row, column=2, padx=5, pady=3)
 
     def ask_file_location(self):
         self.directory = filedialog.askopenfile(initialdir="/", title="Select file",
@@ -71,5 +72,22 @@ class Files(tk.Frame):
         return self.directory
 
 
+class SecondScreen(tk.Tk):
+    def __init__(self, input_directory, output_directory):
+        super().__init__()
+
+        self.title("BeamNG.drive Line Editor")
+
+        frame = tk.Frame(self)
+        frame.grid(padx=5, pady=5)
+        
+        self.speedup_label = Label(frame, text="Speedup %").grid(sticky=tk.W)
+
+
 if __name__ == '__main__':
-    App().mainloop()
+    app = App()
+    app.mainloop()
+    input_directory = app.input_files.get_directory()
+    output_directory = app.output_files.get_directory()
+    app.destroy()
+    app2 = SecondScreen(input_directory, output_directory).mainloop()

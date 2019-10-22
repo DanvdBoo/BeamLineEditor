@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog, Button, Label
-import json, sys
+import sys
+import BeamNG_Speeding as Speeding
 max_file_name_size = 35
 
 
@@ -93,37 +94,8 @@ class SecondScreen(tk.Tk):
     def calculate(self):
         self.done_text.set("")
         print(self.speedup_entry.get())
-        speedup_time(int(self.speedup_entry.get()), self.input_file_location, self.output_file_location)
+        Speeding.speedup_time(int(self.speedup_entry.get()), self.input_file_location, self.output_file_location)
         self.done_text.set("Done!")
-
-
-def speedup_time(percent_quicker, input_file_location, output_file_location):
-    json_file = open(input_file_location, "r")
-    data = json.load(json_file)
-    json_file.close()
-    previous_time = 0
-    previous_old_time = 0
-    spd = 1 - percent_quicker/100
-
-    for time in data['recording']['path']:
-        try:
-            if time['PlaceHolder'] == "start":
-                spd = 1 - percent_quicker/100
-            elif time['PlaceHolder'] == "stop":
-                spd = 1
-        except KeyError:
-            spd = spd
-        old_time = time['t']
-        if old_time < previous_old_time:
-            previous_old_time = old_time/2
-        time['t'] = previous_time + (min(old_time - previous_old_time, 2) * spd)
-        previous_time = time['t']
-        previous_old_time = old_time
-
-    json_file = open(output_file_location, "w+")
-    json_file.write(json.dumps(data, indent=1, sort_keys=True))
-    json_file.close()
-    return
 
 
 if __name__ == '__main__':
@@ -131,7 +103,5 @@ if __name__ == '__main__':
     app.mainloop()
     input_directory = app.input_files.get_file()
     output_directory = app.output_files.get_file()
-    print(input_directory)
-    print(output_directory)
     app.destroy()
     app2 = SecondScreen(input_directory, output_directory).mainloop()

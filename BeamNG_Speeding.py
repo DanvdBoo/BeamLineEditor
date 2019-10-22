@@ -7,7 +7,7 @@ def speedup_time(percent_quicker, input_file_location, output_file_location):
     json_file.close()
     previous_time = 0
     previous_old_time = 0
-    spd = 1
+    spd = 1 - percent_quicker/100
 
     for time in data['recording']['path']:
         try:

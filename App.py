@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
+import Graph
 
 
 class App(tk.Tk):
@@ -9,7 +10,7 @@ class App(tk.Tk):
         self.title("BeamNG.drive Line Editor")
         top_bar = TopBar(self)
         self.config(menu=top_bar)
-        MainFrame(self)
+        self.main_frame = MainFrame(self)
 
 
 class MainFrame(tk.Frame):
@@ -17,36 +18,39 @@ class MainFrame(tk.Frame):
         super().__init__(master, width=1280, height=720)
         self.grid_propagate(0)
         self.grid(row=0, column=0)
+        tk.Frame(self, width=200).grid(row=0, column=1)
         tk.Label(self, text="Input file:").grid(row=0, column=0)
         tk.Label(self, textvariable=master.file_handler.input_file_name).grid(row=0, column=1)
+        self.graph = Graph.Graph(self)
+        self.graph.grid(row=0, column=2, rowspan=50, pady=8, padx=10)
 
 
 class TopBar(tk.Menu):
     def __init__(self, master):
         super().__init__(master, relief=tk.RAISED)
         file_menu = tk.Menu(self, tearoff=0)
-        file_menu.add_command(label="Open", command=master.file_handler.open)
+        file_menu.add_command(label="Open", command=self.open_file)
         file_menu.add_command(label="Save", command=master.file_handler.save)
         self.add_cascade(label="File", menu=file_menu)
         self.add_command(label="Quit", command=master.destroy)
 
+    def open_file(self):
+        self.master.file_handler.open()
+        self.master.main_frame.graph.redraw(self.master.file_handler.input_file)
+
 
 class FileHandler:
+    input_file = ""
+    output_file = ""
+
     def __init__(self):
-        self.input_file = ""
-        self.output_file = ""
         self.input_file_name = tk.StringVar()
-        print(self.input_file)
 
     def open(self):
-        print("Open file!")
         self.input_file = filedialog.askopenfilename(initialdir="/", title="Select file",
                                                      filetypes=(("track files", "*.track.json"), ("all files", "*.*")))
         self.input_file_name.set(self.input_file.split("/")[-1])
-        print(self.input_file)
 
     def save(self):
-        print("Save file!")
         self.output_file = filedialog.askopenfilename(initialdir="/", title="Select file",
                                                       filetypes=(("track files", "*.track.json"), ("all files", "*.*")))
-        print(self.output_file)

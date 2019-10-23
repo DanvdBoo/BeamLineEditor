@@ -7,7 +7,8 @@ import json
 class Graph(tk.Frame):
     def __init__(self, master):
         super().__init__(master)
-        self.fig = Figure(figsize=(10, 7), dpi=100)
+        self.fig = Figure(figsize=(10, 7), dpi=100, tight_layout=True)
+        self.fig.set_facecolor('#f0f0ed')
 
         self.canvas = FigureCanvasTkAgg(self.fig, self)
         self.canvas.draw()
@@ -22,5 +23,6 @@ class Graph(tk.Frame):
         for time in data['recording']['path']:
             x_data.append(time['x'])
             y_data.append(time['y'])
-        self.fig.add_subplot(111).scatter(x_data, y_data)
+        self.fig.clear()
+        self.fig.add_subplot(111, frameon=False).scatter(x_data, y_data)
         self.canvas.draw()

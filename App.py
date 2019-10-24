@@ -69,4 +69,5 @@ class FileHandler:
     def save_as(self):
         self.output_file = filedialog.asksaveasfilename(title="Select file", filetypes=(("track files", "*.track.json"),
                                                                                         ("all files", "*.*")))
-        BeamNG_Speeding.speedup_time(int(self.master.main_frame.speedup_entry.get()), self.input_file, self.output_file)
+        BeamNG_Speeding.speedup_time(float(self.master.main_frame.speedup_entry.get()),
+                                     self.input_file, self.output_file)

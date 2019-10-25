@@ -40,6 +40,7 @@ class TopBar(tk.Menu):
         file_menu.add_command(label="Save as", command=master.file_handler.save_as)
         option_menu = tk.Menu(self, tearoff=0)
         option_menu.add_command(label="Speedup", command=master.speedup(), state=tk.DISABLED)
+        option_menu.add_command(label="Reset zoom", command=master.main_frame.graph.reset_zoom)
         self.add_cascade(label="File", menu=file_menu)
         self.add_cascade(label="Options", menu=option_menu)
         self.add_command(label="Quit", command=master.destroy)

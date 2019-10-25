@@ -20,9 +20,10 @@ class Graph(tk.Frame):
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
     def redraw(self, input_file_location):
+        x, y, z, t, c = zip(*self.read_data(input_file_location))
         self.fig.clear()
         self.ax = self.fig.add_subplot(111, frameon=False, picker=10)
-        self.coll = self.ax.scatter(self.data[0, :], self.data[1, :], color=self.data[4, :])
+        self.coll = self.ax.scatter(x, y, color=c)
         zoom_pan = GraphInteractions.ZoomPan()
         zoom_fac = GraphInteractions.ZoomPan.zoom_factory(zoom_pan, self.ax, base_scale=1.3)
         pan_fac = GraphInteractions.ZoomPan.pan_factory(zoom_pan, self.ax)
@@ -50,10 +51,11 @@ class Graph(tk.Frame):
             y_array.append(time['y'])
             z_array.append(time['z'])
             t_array.append(time['t'])
-        return zip(x_array, y_array, z_array, t_array)
             color_array.append('tab:blue')
+        return zip(x_array, y_array, z_array, t_array, color_array)
 
     def change_color(self, event):
         print('you picked:', event.artist)
+        print(event.ind)
         self.canvas.draw()
 

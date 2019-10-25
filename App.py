@@ -9,9 +9,9 @@ class App(tk.Tk):
         super().__init__()
         self.file_handler = FileHandler(self)
         self.title("BeamNG.drive Line Editor")
+        self.main_frame = MainFrame(self)
         top_bar = TopBar(self)
         self.config(menu=top_bar)
-        self.main_frame = MainFrame(self)
 
     def speedup(self):
         tk.Label(self.main_frame, text="Speedup:").grid(row=2, column=0)
@@ -39,7 +39,7 @@ class TopBar(tk.Menu):
         file_menu.add_command(label="Save", command=master.file_handler.save, state=tk.DISABLED)
         file_menu.add_command(label="Save as", command=master.file_handler.save_as)
         option_menu = tk.Menu(self, tearoff=0)
-        option_menu.add_command(label="Speedup", command=master.speedup)
+        option_menu.add_command(label="Speedup", command=master.speedup(), state=tk.DISABLED)
         self.add_cascade(label="File", menu=file_menu)
         self.add_cascade(label="Options", menu=option_menu)
         self.add_command(label="Quit", command=master.destroy)

@@ -47,6 +47,7 @@ class ZoomPan:
     def pan_factory(self, ax):
         def on_press(event):
             if event.inaxes != ax: return
+            if event.button != 3: return
             self.cur_xlim = ax.get_xlim()
             self.cur_ylim = ax.get_ylim()
             self.press = self.x0, self.y0, event.xdata, event.ydata
@@ -59,6 +60,7 @@ class ZoomPan:
         def on_motion(event):
             if self.press is None: return
             if event.inaxes != ax: return
+            if event.button != 3: return
             dx = event.xdata - self.xpress
             dy = event.ydata - self.ypress
             self.cur_xlim -= dx

@@ -40,9 +40,7 @@ class ZoomPan:
             ax.figure.canvas.draw()
 
         fig = ax.get_figure()  # get the figure of interest
-        fig.canvas.mpl_connect('scroll_event', zoom)
-
-        return zoom
+        return fig.canvas.mpl_connect('scroll_event', zoom)
 
     def pan_factory(self, ax):
         def on_press(event):
@@ -73,14 +71,9 @@ class ZoomPan:
         fig = ax.get_figure()  # get the figure of interest
 
         # attach the call back
-        fig.canvas.mpl_connect('button_press_event',on_press)
-        fig.canvas.mpl_connect('button_release_event',on_release)
-        fig.canvas.mpl_connect('motion_notify_event',on_motion)
+        a = fig.canvas.mpl_connect('button_press_event',on_press)
+        b = fig.canvas.mpl_connect('button_release_event',on_release)
+        c = fig.canvas.mpl_connect('motion_notify_event',on_motion)
 
         # return the function
-        return on_motion
-
-
-class SelectNode:
-    def __init__(self):
-        print("select node WIP")
+        return [a, b, c]

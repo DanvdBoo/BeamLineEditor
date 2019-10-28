@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 import Graph
-import BeamNG_Speeding
+import BeamFactory
 from functools import partial
 
 
@@ -156,5 +156,9 @@ class FileHandler:
         self.output_file = filedialog.asksaveasfilename(title="Select file", filetypes=(("track files", "*.track.json"),
                                                                                         ("all files", "*.*")))
 
-        BeamNG_Speeding.speedup_time(float(self.master.main_frame.speedup_entry.get()),
-                                     self.input_file, self.output_file)
+        mf = self.master.main_frame
+        beam_fac = BeamFactory.BeamFactory(self.input_file, self.output_file)
+        beam_fac.set_speedup_global(mf.speedup_entry.get())
+        beam_fac.set_speedup_local(mf.selected_speedup_entry.get(), mf.graph.start_index, mf.graph.end_index)
+        beam_fac.set_data(mf.graph.data)
+        beam_fac.save_changes()

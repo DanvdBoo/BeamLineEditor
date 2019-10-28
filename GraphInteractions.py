@@ -37,6 +37,8 @@ class ZoomPan:
 
             ax.set_xlim([xdata - new_width * (1-relx), xdata + new_width * (relx)])
             ax.set_ylim([ydata - new_height * (1-rely), ydata + new_height * (rely)])
+            self.cur_xlim = ax.get_xlim()
+            self.cur_ylim = ax.get_ylim()
             ax.figure.canvas.draw()
 
         fig = ax.get_figure()  # get the figure of interest

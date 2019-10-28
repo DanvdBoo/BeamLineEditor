@@ -3,6 +3,18 @@ Simple Line Editor for BeamNG.drive
 
 Feedback is always welcome, more features to come.
 
+#### Current known bugs:
+- Not automatically add .track.json to file names.
+
+#### List of features I would like to add:
+- toggable line
+- option to apply current speedup values
+- a proper help page
+
+### v0.2
+Added the functionallity to move individual nodes. 
+Speedup parts of the line.
+
 ### v0.1.1
 Added a more pleasant GUI, including a graph showing all the points of the selected line
 

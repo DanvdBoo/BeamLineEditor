@@ -158,6 +158,8 @@ class FileHandler:
     def save_as(self):
         self.output_file = filedialog.asksaveasfilename(title="Select file", filetypes=(("track files", "*.track.json"),
                                                                                         ("all files", "*.*")))
+        if ".track.json" not in self.output_file:
+            self.output_file = self.output_file + ".track.json"
 
         mf = self.master.main_frame
         beam_fac = BeamFactory.BeamFactory(self.input_file, self.output_file)

@@ -8,7 +8,7 @@ Feedback is always welcome, more features to come.
 - [x] Not automatically add .track.json to file names.
 
 #### List of features I would like to add (ordered by priority):
-- [ ] Toggable line
+- [ ] Toggleable line
 - [ ] Option to apply current speedup values
 - [ ] Show z value
 - [ ] Show velocity or t-value

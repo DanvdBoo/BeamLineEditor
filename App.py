@@ -76,6 +76,9 @@ class MainFrame(tk.Frame):
         tk.Label(self, text="Move by:").grid(row=12, column=0)
         self.move_entry.grid(row=12, column=1)
 
+        self.move_node_location = tk.StringVar()
+        tk.Label(self, textvariable=self.move_node_location).grid(row=13, column=1)
+
         self.select_start()
 
     def select_start(self):

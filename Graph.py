@@ -130,6 +130,8 @@ class Graph(tk.Frame):
     def select_move(self, event):
         if event.mouseevent.button != 1: return
         self.move_index = event.ind[0]
+        self.master.move_node_location.set('x: %.4f, y: %.4f' % (self.data[self.move_index][0],
+                                                                 self.data[self.move_index][1]))
         self.redraw_simp()
 
     def attach_start_stop(self, master_string_var, start_end):
@@ -186,4 +188,6 @@ class Graph(tk.Frame):
             self.data[self.move_index][1] -= distance
         elif direction == "W":
             self.data[self.move_index][0] -= distance
+        self.master.move_node_location.set('x: %.4f, y: %.4f' % (self.data[self.move_index][0],
+                                                                 self.data[self.move_index][1]))
         self.redraw_simp()

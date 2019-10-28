@@ -7,6 +7,7 @@ import GraphInteractions
 
 class Graph(tk.Frame):
     ax, original_xlim, original_ylim, coll, pick_id = None, None, None, None, None
+    move_id = None
     start_end_bool = -1  # 0 is start, 1 is end, -1 is None
     start_index, end_index, move_index = 0, None, None
     data = []
@@ -14,6 +15,7 @@ class Graph(tk.Frame):
 
     def __init__(self, master):
         super().__init__(master)
+        self.master = master
         self.fig = Figure(figsize=(10, 7), dpi=100, tight_layout=True)
         self.fig.set_facecolor('#f0f0ed')
 
@@ -128,6 +130,8 @@ class Graph(tk.Frame):
     def select_move(self, event):
         if event.mouseevent.button != 1: return
         self.move_index = event.ind[0]
+        self.master.move_node_location.set('x: %.4f, y: %.4f' % (self.data[self.move_index][0],
+                                                                 self.data[self.move_index][1]))
         self.redraw_simp()
 
     def attach_start_stop(self, master_string_var, start_end):
@@ -140,10 +144,13 @@ class Graph(tk.Frame):
         if self.pick_id is None: return
         self.start_end_bool = -1
         self.canvas.mpl_disconnect(self.pick_id)
+        if self.move_id is None: return
+        self.canvas.mpl_disconnect(self.move_id)
 
     def attach_move_node(self):
         self.detach_start_stop()
         self.pick_id = self.canvas.mpl_connect('pick_event', self.select_move)
+        self.move_id = self.canvas.mpl_connect('key_press_event', self.move_node_button)
 
     def next_start(self, master_string, diff):
         self.start_index += diff
@@ -159,6 +166,19 @@ class Graph(tk.Frame):
         self.redraw_ext()
         master_string.set('x: %.4f, y: %.4f' % (self.data[self.end_index][0], self.data[self.end_index][1]))
 
+    def move_node_button(self, event):
+        direction = ""
+        if event.key == "up":
+            direction = "N"
+        elif event.key == "right":
+            direction = "E"
+        elif event.key == "down":
+            direction = "S"
+        elif event.key == "left":
+            direction = "W"
+        if direction != "":
+            self.move_node(direction, float(self.master.move_entry.get()))
+
     def move_node(self, direction, distance):
         if direction == "N":
             self.data[self.move_index][1] += distance
@@ -168,4 +188,6 @@ class Graph(tk.Frame):
             self.data[self.move_index][1] -= distance
         elif direction == "W":
             self.data[self.move_index][0] -= distance
+        self.master.move_node_location.set('x: %.4f, y: %.4f' % (self.data[self.move_index][0],
+                                                                 self.data[self.move_index][1]))
         self.redraw_simp()

@@ -6,10 +6,11 @@ Feedback is always welcome, more features to come.
 #### Current known bugs:
 - Not automatically add .track.json to file names.
 
-#### List of features I would like to add:
-- toggable line
-- option to apply current speedup values
-- a proper help page
+#### List of features I would like to add (ordered by priority):
+- Toggable line
+- Option to apply current speedup values
+- Custom logo
+- A proper help page
 
 ### v0.2
 Added the functionallity to move individual nodes. 

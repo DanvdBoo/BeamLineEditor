@@ -31,7 +31,6 @@ class Graph(tk.Frame):
         self.fig.clear()
         self.ax = self.fig.add_subplot(111, frameon=False)
         self.coll = self.ax.scatter(x, y, color=c, picker=True)
-        self.data = self.coll.get_offsets()
         self.end_index = len(self.data) - 1
         self.connect_ids.append(GraphInteractions.ZoomPan.zoom_factory(self.zoom_pan, self.ax, base_scale=1.3))
         self.connect_ids.extend(GraphInteractions.ZoomPan.pan_factory(self.zoom_pan, self.ax))
@@ -54,17 +53,17 @@ class Graph(tk.Frame):
         master_string.set("")
         self.redraw_ext()
 
-    @staticmethod
-    def read_data(input_file_location):
+    def read_data(self, input_file_location):
         x_array = []
         y_array = []
         color_array = []
         json_file = open(input_file_location, "r")
-        data = json.load(json_file)
+        file_data = json.load(json_file)
         json_file.close()
-        for time in data['recording']['path']:
+        for time in file_data['recording']['path']:
             x_array.append(time['x'])
             y_array.append(time['y'])
+            self.data.append([time['x'], time['y']])
             color_array.append('tab:blue')
         return zip(x_array, y_array, color_array)
 

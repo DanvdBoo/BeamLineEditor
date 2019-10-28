@@ -124,7 +124,7 @@ class Graph(tk.Frame):
         elif self.start_end_bool == 1:
             self.end_index = event.ind[0]
         self.redraw_ext()
-        self.master_string.set('x: %.4f, y: %.4f' % (self.data[event.ind][0][0], self.data[event.ind][0][1]))
+        self.master_string.set('x: %.4f, y: %.4f' % (self.data[event.ind[0]][0], self.data[event.ind[0]][1]))
 
     def select_move(self, event):
         if event.mouseevent.button != 1: return

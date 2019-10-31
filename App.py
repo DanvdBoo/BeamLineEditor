@@ -61,46 +61,66 @@ class MainFrame(tk.Frame):
         tk.Label(self, text="Speedup\n(selected):").grid(row=7, column=0)
         self.selected_speedup_entry.grid(row=7, column=1)
 
-        tk.Label(self, text="Move:").grid(row=9, column=0)
+        tk.Button(self, text="Apply", command=self.apply_local_speedup).grid(row=8, column=1)
+
+        tk.Label(self, text="Move:").grid(row=10, column=0)
         frame3 = tk.Frame(self)
-        frame3.grid(row=10, column=1)
+        frame3.grid(row=11, column=1)
         tk.Button(frame3, text="◀", command=partial(self.move_node, "W")).grid(row=0, column=0)
         self.sel_move_button = tk.Button(frame3, text="O", command=self.select_move)
         self.sel_move_button.grid(row=0, column=1)
         tk.Button(frame3, text="▶", command=partial(self.move_node, "E")).grid(row=0, column=2)
-        tk.Button(self, text="▲", command=partial(self.move_node, "N")).grid(row=9, column=1)
-        tk.Button(self, text="▼", command=partial(self.move_node, "S")).grid(row=11, column=1)
+        tk.Button(self, text="▲", command=partial(self.move_node, "N")).grid(row=10, column=1)
+        tk.Button(self, text="▼", command=partial(self.move_node, "S")).grid(row=12, column=1)
 
         self.move_entry = tk.Entry(self)
         self.move_entry.insert(tk.END, "0.5")
-        tk.Label(self, text="Move by:").grid(row=12, column=0)
-        self.move_entry.grid(row=12, column=1)
+        tk.Label(self, text="Move by:").grid(row=13, column=0)
+        self.move_entry.grid(row=13, column=1)
 
         self.move_node_location = tk.StringVar()
-        tk.Label(self, textvariable=self.move_node_location).grid(row=13, column=1)
+        tk.Label(self, textvariable=self.move_node_location).grid(row=14, column=1)
+
+        tk.Label(self, text="Remove:").grid(row=16, column=0)
+        self.sel_remove_button = tk.Button(self, text="Select:", command=self.select_remove)
+        self.sel_remove_button.grid(row=16, column=1)
+        self.remove_node_location = tk.StringVar()
+        tk.Label(self, textvariable=self.remove_node_location).grid(row=17, column=1)
+        self.remove_button = tk.Button(self, text="Remove", command=self.graph.remove_node)
+        self.remove_button.grid(row=17, column=0)
 
         self.select_start()
 
     def select_start(self):
+        self.raise_buttons()
         self.sel_start_button.config(relief=tk.SUNKEN)
-        self.sel_end_button.config(relief=tk.RAISED)
-        self.sel_move_button.config(relief=tk.RAISED)
         self.graph.attach_start_stop(self.start_coord, 0)
 
     def select_end(self):
+        self.raise_buttons()
         self.sel_end_button.config(relief=tk.SUNKEN)
-        self.sel_start_button.config(relief=tk.RAISED)
-        self.sel_move_button.config(relief=tk.RAISED)
         self.graph.attach_start_stop(self.end_coord, 1)
 
     def select_move(self):
         self.sel_move_button.config(relief=tk.SUNKEN)
+        self.graph.attach_move_node()
+
+    def select_remove(self):
+        self.raise_buttons()
+        self.sel_remove_button.config(relief=tk.SUNKEN)
+        self.graph.attach_remove_node(self.remove_node_location)
+
+    def raise_buttons(self):
         self.sel_end_button.config(relief=tk.RAISED)
         self.sel_start_button.config(relief=tk.RAISED)
-        self.graph.attach_move_node()
+        self.sel_move_button.config(relief=tk.RAISED)
+        self.sel_remove_button.config(relief=tk.RAISED)
 
     def move_node(self, direction):
         self.graph.move_node(direction, float(self.move_entry.get()))
+
+    def apply_local_speedup(self):
+        self.graph.apply_local_speedup(self.selected_speedup_entry.get())
 
 
 class TopBar(tk.Menu):
@@ -116,8 +136,14 @@ class TopBar(tk.Menu):
         option_menu.add_command(label="Reset start point", command=self.reset_start)
         option_menu.add_command(label="Reset end point", command=self.reset_end)
         option_menu.add_command(label="Reset start & end", command=self.reset_start_end)
+        show_menu = tk.Menu(self, tearoff=0)
+        show_menu.add_command(label="Default", command=master.main_frame.graph.reset_color)
+        show_menu.add_command(label="Time", command=master.main_frame.graph.show_time)
+        show_menu.add_command(label="Speed", command=master.main_frame.graph.show_speed)
+        show_menu.add_command(label="Height", command=master.main_frame.graph.show_height)
         self.add_cascade(label="File", menu=file_menu)
         self.add_cascade(label="Options", menu=option_menu)
+        self.add_cascade(label="Show", menu=show_menu)
         self.add_cascade(label="Help", state=tk.DISABLED)
         self.add_command(label="Quit", command=master.destroy)
 

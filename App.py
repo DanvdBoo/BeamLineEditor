@@ -10,7 +10,6 @@ class App(tk.Tk):
         super().__init__()
         self.file_handler = FileHandler(self)
         self.title("BeamNG.drive Line Editor")
-        self.iconbitmap('line_editor_logo.ico')
         self.main_frame = MainFrame(self)
         top_bar = TopBar(self)
         self.config(menu=top_bar)
@@ -103,6 +102,7 @@ class MainFrame(tk.Frame):
         self.graph.attach_start_stop(self.end_coord, 1)
 
     def select_move(self):
+        self.raise_buttons()
         self.sel_move_button.config(relief=tk.SUNKEN)
         self.graph.attach_move_node()
 

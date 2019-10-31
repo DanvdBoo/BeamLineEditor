@@ -107,13 +107,14 @@ class Graph(tk.Frame):
         for idx, row in enumerate(self.data):
             x.append(row[0])
             y.append(row[1])
-            if idx < self.start_index or idx > self.end_index or\
+            if idx == self.start_index or idx == self.end_index or idx == self.remove_index:
+                c.append('tab:red')
+            elif idx < self.start_index or idx > self.end_index or\
                     (self.start_index == 0 and self.end_index == len(self.data) - 1):
                 c.append('tab:blue')
             elif self.start_index < idx < self.end_index:
                 c.append('c')
-            elif idx == self.start_index or idx == self.end_index or idx == self.remove_index:
-                c.append('tab:red')
+
         self.redraw_color(x, y, c)
 
     def redraw_simp(self):
@@ -289,7 +290,7 @@ class Graph(tk.Frame):
         del self.data[self.remove_index]
         self.end_index = len(self.data) - 1
         self.redraw_ext()
-        self.master_string.set('x: Null, y: Null')
+        self.master_string.set('x: %.4f, y: %.4f' % (self.data[self.remove_index][0], self.data[self.remove_index][1]))
 
     def apply_local_speedup(self, value):
         speedup = 1

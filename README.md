@@ -8,19 +8,36 @@ Feedback is always welcome, more features to come.
 
 #### List of features I would like to add (ordered by priority):
 - [ ] Toggleable line
-- [ ] Option to apply current speedup values
-- [ ] Show z value
-- [ ] Show velocity or t-value
-- [ ] Custom logo
-- [ ] Add additional points to the line
+- [x] Option to apply current speedup values
+- [x] Show z value
+- [x] Show velocity or t-value
+- [x] Move nodes with the mouse
+- [x] Custom logo
 - [ ] A proper help page
+- [ ] Add additional points to the end of the line
+- [ ] Repeat part of line (laps)
+- [ ] Select finish line (Add lap-counter on Beam ??)
+- [x] Remove nodes
+
+### v0.3
+#### Things added:
+- Gradients for speed, time and height.
+- Move nodes with the mouse.
+- Remove nodes from the line.
+- Apply partially speeding up the line.
+- A custom logo based on the BeamNG.drive logo
+
+#### Fixes
+- Fixed issue where opening a new line wouldn't destroy old data.
+
+#### List of Known bugs
 
 ### v0.2
 Added the functionallity to move individual nodes. 
 Speedup parts of the line.
 
 #### Known bugs
-- Line moves while it shouldn't (fixed in v0.2.1)
+- Line moves while it shouldn't. (fixed in v0.2.1)
 - Not automatically add .track.json to file names. (fixed in v0.2.1)
 
 ### v0.1.1

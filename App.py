@@ -10,6 +10,7 @@ class App(tk.Tk):
         super().__init__()
         self.file_handler = FileHandler(self)
         self.title("BeamNG.drive Line Editor")
+        self.iconbitmap('line_editor_logo.ico')
         self.main_frame = MainFrame(self)
         top_bar = TopBar(self)
         self.config(menu=top_bar)

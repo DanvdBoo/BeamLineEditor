@@ -25,7 +25,6 @@ Feedback is always welcome, more features to come.
 - Move nodes with the mouse.
 - Remove nodes from the line.
 - Apply partially speeding up the line.
-- A custom logo based on the BeamNG.drive logo
 
 #### Fixes
 - Fixed issue where opening a new line wouldn't destroy old data.
